@@ -1,5 +1,6 @@
 package com.aerolinea.api.model.entity;
 
+
 import java.io.Serializable;
 import java.util.List;
 
