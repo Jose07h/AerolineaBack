@@ -16,8 +16,10 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+import com.aerolinea.api.service.utils.constants.TablesName;
+
 @Entity
-@Table(name = "empleados")
+@Table(name = TablesName.EMPLEADOS)
 public class Empleado implements Serializable {
 
 	private static final long serialVersionUID = 1L;

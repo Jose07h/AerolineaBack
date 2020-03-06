@@ -19,8 +19,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.aerolinea.api.service.utils.constants.TablesName;
+
 @Entity
-@Table(name = "vuelos")
+@Table(name = TablesName.VUELOS)
 public class Vuelo implements Serializable {
 	/**
 	 * 

@@ -8,10 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import com.aerolinea.api.service.utils.constants.TablesName;
 
 @Entity
-@Table(name = "puestos")
+@Table(name = TablesName.PUESTOS)
 public class Puesto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,15 +25,18 @@ public class Puesto implements Serializable {
 	private Integer id;
 
 	@Column(nullable = false)
-	@NotNull(message = "La ciudad es requerida")
+	@NotEmpty(message = "El puesto es requerido")
 	private String puesto;
 
+	
 	@Column(nullable = false)
-	@NotNull(message = "El turno es requerido")
+	@NotEmpty(message = "El turno es requerido")
 	private String turno;
 
 	@Column(nullable = false)
 	@NotNull(message = "El salario es requerido")
+	@Positive(message = "El salario tiene que ser mayor que 0")
+	@Min(value = 1000,message = "EL salario deve de sermayor a 1000")
 	private Integer salario;
 
 	public Integer getId() {

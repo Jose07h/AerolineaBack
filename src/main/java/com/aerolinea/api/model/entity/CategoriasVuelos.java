@@ -9,8 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.aerolinea.api.service.utils.constants.TablesName;
+
 @Entity
-@Table(name = "categorias_vuelos")
+@Table(name = TablesName.CATEGORIAS_VUELOS)
 public class CategoriasVuelos implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -10,8 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.aerolinea.api.service.utils.constants.TablesName;
+
 @Entity
-@Table(name = "destinos")
+@Table(name = TablesName.DESTINOS)
 public class Destino implements Serializable {
 
 	private static final long serialVersionUID = 1L;
