@@ -8,25 +8,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import com.aerolinea.api.service.utils.constants.TablesName;
+import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 
 @Entity
-@Table(name = TablesName.DESTINOS)
+@Table(name = TablesAndAttributesName.DESTINOS)
 public class Destino implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	@Column(nullable = false)
-	@NotNull(message = "La ciudad es requerida")
+	@NotEmpty(message = "La ciudad es requerida")
 	private String ciudad;
+	
 	@Column(nullable = false)
-	@NotNull(message = "El pais es requerido")
+	@NotEmpty(message = "El pais es requerido")
 	private String pais;
 	
+	@Column(nullable = false)
+	@NotNull(message = "Es nesesario espesificar la disponobilidad del destino")
 	private Boolean disponible;
 
 	public Integer getId() {

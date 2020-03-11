@@ -13,10 +13,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-import com.aerolinea.api.service.utils.constants.TablesName;
+import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 
 @Entity
-@Table(name = TablesName.PUESTOS)
+@Table(name = TablesAndAttributesName.PUESTOS)
 public class Puesto implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -24,17 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aerolinea.api.controladores.generic.ControllerGeneric;
-import com.aerolinea.api.model.entity.Puesto;
-import com.aerolinea.api.service.PuestoService;
+import com.aerolinea.api.model.entity.Destino;
+import com.aerolinea.api.service.DestinoService;
 import com.aerolinea.api.service.utils.constants.CommonWords;
 import com.aerolinea.api.service.utils.constants.KeyResponse;
-import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 
 @RestController
-@RequestMapping(path = "/puestos")
-public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
+@RequestMapping(path = "/destinos")
+public class DestinoController extends ControllerGeneric<Destino, DestinoService> {
+
 	@Autowired
-	private PuestoService puestoService;
+	private DestinoService destinoService;
 
 	@Autowired
 	private MessageSource mensajes;
@@ -45,30 +45,28 @@ public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
 	}
 
 	@GetMapping("/o/{orden}")
-	public List<Puesto> findByOrden(@PathVariable String orden) {
-		return puestoService.findByOrden(orden);
+	public List<Destino> findByOrden(@PathVariable String orden) {
+		return destinoService.findByOrden(orden);
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> guardar(@RequestBody @Valid Puesto puesto, BindingResult result, Locale locale) {
-		String textToConcat = TablesAndAttributesName.PUESTOS_PUESTO + CommonWords.DOS_PUNTOS + puesto.getPuesto()
-				+ CommonWords.ESPACIO + CommonWords.COMMA + TablesAndAttributesName.PUESTOS_TURNO
-				+ CommonWords.DOS_PUNTOS + puesto.getTurno();
-		return guardarEntity(puesto, result, textToConcat);
+	public ResponseEntity<?> guardar(@RequestBody @Valid Destino destino, BindingResult result) {
+		String textToConcat = destino.getCiudad() + CommonWords.ESPACIO + destino.getPais();
+		return guardarEntity(destino, result, textToConcat);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable Integer id, Locale locale) {
+	public ResponseEntity<?> delete(@PathVariable Integer id, Locale locale) {
 		return  eliminarEntity(id);
 	}
 
-	@GetMapping("/p/{puesto}")
-	public ResponseEntity<?> findByPuesto(@PathVariable String puesto, Locale locale) {
+	@GetMapping("/p/{pais}")
+	public ResponseEntity<?> findByPais(@PathVariable String pais, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		List<Puesto> puestos = new ArrayList<Puesto>();
+		List<Destino> destinos = new ArrayList<Destino>();
 		try {
-			puestos = puestoService.findByPuesto(puesto);
-			if (puestos.isEmpty()) {
+			destinos = destinoService.findByPais(pais);
+			if (destinos.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
@@ -77,17 +75,17 @@ public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put(KeyResponse.RESULT, puestos);
+		response.put(KeyResponse.RESULT, destinos);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@GetMapping("/t/{turno}")
-	public ResponseEntity<?> findByTurno(@PathVariable String turno, Locale locale) {
+	@GetMapping("/c/{ciudad}")
+	public ResponseEntity<?> findByCiudad(@PathVariable String ciudad, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		List<Puesto> puestos = new ArrayList<Puesto>();
+		List<Destino> destinos = new ArrayList<Destino>();
 		try {
-			puestos = puestoService.findByTurno(turno);
-			if (puestos.isEmpty()) {
+			destinos = destinoService.findByCiudad(ciudad);
+			if (destinos.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
@@ -96,21 +94,19 @@ public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put(KeyResponse.RESULT, puestos);
+		response.put(KeyResponse.RESULT, destinos);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findByOne(@PathVariable Integer id) {
+	public ResponseEntity<?> findById(@PathVariable Integer id, Locale locale) {
 		return findOne(id);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizar(@RequestBody @Valid Puesto puesto, BindingResult result,
+	public ResponseEntity<?> actualizar(@RequestBody @Valid Destino destino, BindingResult result,
 			@PathVariable Integer id) {
-		String textToConcat = TablesAndAttributesName.PUESTOS_PUESTO + CommonWords.DOS_PUNTOS + puesto.getPuesto()
-		+ CommonWords.ESPACIO + CommonWords.COMMA + TablesAndAttributesName.PUESTOS_TURNO
-		+ CommonWords.DOS_PUNTOS + puesto.getTurno();
-		return actualizarEntity(puesto, result, id, textToConcat);
+		String textToConcat = destino.getCiudad() + CommonWords.ESPACIO + destino.getPais();
+		return actualizarEntity(destino, result, id, textToConcat);
 	}
 }

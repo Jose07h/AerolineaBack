@@ -13,7 +13,7 @@ import com.aerolinea.api.model.repository.EmpleadoRepository;
 import com.aerolinea.api.model.repository.PuestoRepository;
 import com.aerolinea.api.service.PuestoService;
 import com.aerolinea.api.service.utils.constants.SQLConstants;
-import com.aerolinea.api.service.utils.constants.TablesName;
+import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 import com.aerolinea.api.service.utils.rowmapper.PuestoRowMapper;
 
 @Service
@@ -37,7 +37,7 @@ public class PuestoServiceImpl implements PuestoService {
 
 	@Override
 	public List<Puesto> findByOrden(String orden) {
-		String sql = SQLConstants.SELECT_ALL.getConstant() + TablesName.PUESTOS + " " + SQLConstants.ORDER.getConstant()
+		String sql = SQLConstants.SELECT_ALL.getConstant() + TablesAndAttributesName.PUESTOS + " " + SQLConstants.ORDER.getConstant()
 				+ SQLConstants.BY.getConstant() + orden;
 		log.info(sql);
 		return JDBC.query(sql, new PuestoRowMapper());
@@ -69,11 +69,20 @@ public class PuestoServiceImpl implements PuestoService {
 	}
 
 	@Override
-	public Boolean isUsedInEmpleados(Puesto puesto) {
+	public Boolean isUsed(Puesto puesto) {
 		if (empleadoRepository.countByPuesto(puesto)>0) {
 			return true;
 		}
 		return false;
 	}
 
+	@Override
+	public Puesto MapNewToOld(Puesto oldPuesto, Puesto newPuesto) {
+		oldPuesto.setPuesto(newPuesto.getPuesto());
+		oldPuesto.setTurno(newPuesto.getTurno());
+		oldPuesto.setSalario(newPuesto.getSalario());
+		return oldPuesto;
+	}
+
+	
 }
