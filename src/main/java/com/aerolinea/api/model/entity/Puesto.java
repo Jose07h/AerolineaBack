@@ -22,7 +22,7 @@ public class Puesto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Column(nullable = false)
 	@NotEmpty(message = "El puesto es requerido")
@@ -39,11 +39,11 @@ public class Puesto implements Serializable {
 	@Min(value = 1000,message = "EL salario deve de sermayor a 1000")
 	private Integer salario;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

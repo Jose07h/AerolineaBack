@@ -45,8 +45,8 @@ public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
 	}
 
 	@GetMapping("/o/{orden}")
-	public List<Puesto> findByOrden(@PathVariable String orden) {
-		return puestoService.findByOrden(orden);
+	public ResponseEntity<?> findByOrden(@PathVariable String orden) {
+		return findAllByOrden(orden);
 	}
 
 	@PostMapping("/")
@@ -58,7 +58,7 @@ public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> eliminar(@PathVariable Integer id, Locale locale) {
+	public ResponseEntity<?> eliminar(@PathVariable Long id, Locale locale) {
 		return  eliminarEntity(id);
 	}
 
@@ -101,13 +101,13 @@ public class PuestoController extends ControllerGeneric<Puesto, PuestoService> {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findByOne(@PathVariable Integer id) {
+	public ResponseEntity<?> findByOne(@PathVariable Long id) {
 		return findOne(id);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody @Valid Puesto puesto, BindingResult result,
-			@PathVariable Integer id) {
+			@PathVariable Long id) {
 		String textToConcat = TablesAndAttributesName.PUESTOS_PUESTO + CommonWords.DOS_PUNTOS + puesto.getPuesto()
 		+ CommonWords.ESPACIO + CommonWords.COMMA + TablesAndAttributesName.PUESTOS_TURNO
 		+ CommonWords.DOS_PUNTOS + puesto.getTurno();

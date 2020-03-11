@@ -21,7 +21,7 @@ public class Destino implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@Column(nullable = false)
 	@NotEmpty(message = "La ciudad es requerida")
@@ -35,11 +35,11 @@ public class Destino implements Serializable {
 	@NotNull(message = "Es nesesario espesificar la disponobilidad del destino")
 	private Boolean disponible;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

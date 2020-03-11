@@ -6,6 +6,6 @@ import com.aerolinea.api.model.entity.ReservasVuelo;
 
 
 
-public interface ReservasVueloRepository extends CrudRepository<ReservasVuelo, Integer>{
+public interface ReservasVueloRepository extends CrudRepository<ReservasVuelo, Long>{
 
 }

@@ -24,7 +24,7 @@ public class ReservasVuelo implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@OneToMany(mappedBy = "reservaVuelo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Cliente> clientesList;
@@ -36,11 +36,11 @@ public class ReservasVuelo implements Serializable {
 	private CategoriasVuelos categoria;
 
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

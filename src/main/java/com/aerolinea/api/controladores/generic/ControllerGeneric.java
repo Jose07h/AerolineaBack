@@ -28,7 +28,7 @@ public class ControllerGeneric<E, S> {
 	@Autowired
 	private MessageSource mensajes;
 
-	public ResponseEntity<?> findOne(Integer id) {
+	public ResponseEntity<?> findOne(Long id) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		E entity = null;
 		try {
@@ -51,6 +51,24 @@ public class ControllerGeneric<E, S> {
 		List<E> allDataList = new ArrayList<E>();
 		try {
 			allDataList = service.findAll();
+			if (allDataList.isEmpty()) {
+				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.datos", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+		} catch (DataAccessException e) {
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put(KeyResponse.RESULT, allDataList);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<?> findAllByOrden(String orden) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		List<E> allDataList = new ArrayList<E>();
+		try {
+			allDataList = service.findAllByOrden(orden);
 			if (allDataList.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.datos", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -88,7 +106,7 @@ public class ControllerGeneric<E, S> {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> actualizarEntity(E entity, BindingResult result, Integer id, String textConcatToMs) {
+	public ResponseEntity<?> actualizarEntity(E entity, BindingResult result, Long id, String textConcatToMs) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		E newEntity = null;
 		E oldEntity = null;
@@ -120,7 +138,7 @@ public class ControllerGeneric<E, S> {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	public ResponseEntity<?> eliminarEntity(Integer id) {
+	public ResponseEntity<?> eliminarEntity(Long id) {
 		E oldEntity = null;
 		Map<String, Object> response = new HashMap<String, Object>();
 		try {

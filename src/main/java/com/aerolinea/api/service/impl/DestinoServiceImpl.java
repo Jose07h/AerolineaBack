@@ -36,7 +36,7 @@ public class DestinoServiceImpl implements DestinoService {
 	}
 
 	@Override
-	public List<Destino> findByOrden(String orden) {
+	public List<Destino> findAllByOrden(String orden) {
 		String sql = SQLConstants.SELECT_ALL.getConstant() + TablesAndAttributesName.DESTINOS + " "
 				+ SQLConstants.ORDER.getConstant() + SQLConstants.BY.getConstant() + orden;
 		log.info(sql);
@@ -54,7 +54,7 @@ public class DestinoServiceImpl implements DestinoService {
 	}
 
 	@Override
-	public Destino findById(Integer id) {
+	public Destino findById(Long id) {
 		return destinoRespository.findById(id).orElse(null);
 	}
 

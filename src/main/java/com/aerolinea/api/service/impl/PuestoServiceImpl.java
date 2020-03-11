@@ -12,6 +12,7 @@ import com.aerolinea.api.model.entity.Puesto;
 import com.aerolinea.api.model.repository.EmpleadoRepository;
 import com.aerolinea.api.model.repository.PuestoRepository;
 import com.aerolinea.api.service.PuestoService;
+import com.aerolinea.api.service.utils.constants.CommonWords;
 import com.aerolinea.api.service.utils.constants.SQLConstants;
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 import com.aerolinea.api.service.utils.rowmapper.PuestoRowMapper;
@@ -36,8 +37,8 @@ public class PuestoServiceImpl implements PuestoService {
 	}
 
 	@Override
-	public List<Puesto> findByOrden(String orden) {
-		String sql = SQLConstants.SELECT_ALL.getConstant() + TablesAndAttributesName.PUESTOS + " " + SQLConstants.ORDER.getConstant()
+	public List<Puesto> findAllByOrden(String orden) {
+		String sql = SQLConstants.SELECT_ALL.getConstant() + TablesAndAttributesName.PUESTOS + CommonWords.ESPACIO + SQLConstants.ORDER.getConstant()
 				+ SQLConstants.BY.getConstant() + orden;
 		log.info(sql);
 		return JDBC.query(sql, new PuestoRowMapper());
@@ -49,7 +50,7 @@ public class PuestoServiceImpl implements PuestoService {
 	}
 
 	@Override
-	public Puesto findById(Integer id) {
+	public Puesto findById(Long id) {
 		return puestoRepository.findById(id).orElse(null);
 	}
 
@@ -84,5 +85,4 @@ public class PuestoServiceImpl implements PuestoService {
 		return oldPuesto;
 	}
 
-	
 }

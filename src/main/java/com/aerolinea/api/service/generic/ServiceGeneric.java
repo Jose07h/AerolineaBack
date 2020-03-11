@@ -5,9 +5,7 @@ import java.util.List;
 public interface ServiceGeneric<T> {
 	public List<T> findAll();
 
-	public List<T> findByOrden(String orden);
-
-	public T findById(Integer id);
+	public T findById(Long id);
 	
 	public T save(T entity) ;
 	
@@ -17,4 +15,6 @@ public interface ServiceGeneric<T> {
 	
 	public Boolean isUsed(T entity);
 	
+	public List<T> findAllByOrden(String orden);
+
 }

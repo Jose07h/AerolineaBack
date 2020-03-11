@@ -1,13 +1,13 @@
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 12, 40, true,'Airbus A320 neo', 1000, 300);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 6,  50, true,'Airbus A340', 1500, 200);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 4,  80, true,'Airbus A350', 2000, 600);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 12, 120, true,'Airbus A380', 1500, 200);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 8,  40, true,'Boeing 717 ', 3000, 200);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 6,  60, true,'Boeing 747-8', 1500, 800);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 8,  40, true,'Boeing 787 Dreamliner', 2500, 660);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 8,  30, true,'Bombardier Cseries', 1100, 230);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 4,  400, true,'Bombardier CRJ 700', 2200, 570);
-INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velosidad_maxima)	VALUES ( 14, 50, true,'Boeing Dreamliner', 3100, 150);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 12, 40, true,'Airbus A320 neo', 1000, 600);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 6,  50, true,'Airbus A340', 1500, 770);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 4,  80, true,'Airbus A350', 2000, 600);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 12, 120, true,'Airbus A380', 1500, 750);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 8,  40, true,'Boeing 717 ', 3000, 920);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 6,  60, true,'Boeing 747-8', 1500, 800);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 8,  40, true,'Boeing 787 Dreamliner', 2500, 660);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 8,  30, true,'Bombardier Cseries', 1100, 510);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 4,  400, true,'Bombardier CRJ 700', 2200, 570);
+INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 14, 50, true,'Boeing Dreamliner', 3100, 876);
 
 INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Clase económica');
 INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Primera clase');
@@ -202,4 +202,4 @@ INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)
 INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('B8',2,8);
 INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('C15',3,6);
 INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('D2',1,1);
-	
+			

@@ -24,17 +24,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aerolinea.api.controladores.generic.ControllerGeneric;
-import com.aerolinea.api.model.entity.Destino;
-import com.aerolinea.api.service.DestinoService;
-import com.aerolinea.api.service.utils.constants.CommonWords;
+import com.aerolinea.api.model.entity.Avion;
+import com.aerolinea.api.service.AvionService;
 import com.aerolinea.api.service.utils.constants.KeyResponse;
 
 @RestController
-@RequestMapping(path = "/destinos")
-public class DestinoController extends ControllerGeneric<Destino, DestinoService> {
-
+@RequestMapping(path = "/aviones")
+public class AvionController extends ControllerGeneric<Avion, AvionService> {
+ 
 	@Autowired
-	private DestinoService destinoService;
+	private AvionService avionService;
 
 	@Autowired
 	private MessageSource mensajes;
@@ -50,9 +49,9 @@ public class DestinoController extends ControllerGeneric<Destino, DestinoService
 	}
 
 	@PostMapping("/")
-	public ResponseEntity<?> guardar(@RequestBody @Valid Destino destino, BindingResult result) {
-		String textToConcat = destino.getCiudad() + CommonWords.ESPACIO + destino.getPais();
-		return guardarEntity(destino, result, textToConcat);
+	public ResponseEntity<?> guardar(@RequestBody @Valid Avion avion, BindingResult result) {
+		String textToConcat = avion.getModelo() ;
+		return guardarEntity(avion, result, textToConcat);
 	}
 
 	@DeleteMapping("/{id}")
@@ -60,13 +59,13 @@ public class DestinoController extends ControllerGeneric<Destino, DestinoService
 		return  eliminarEntity(id);
 	}
 
-	@GetMapping("/p/{pais}")
-	public ResponseEntity<?> findByPais(@PathVariable String pais, Locale locale) {
+	@GetMapping("/m/{modelo}")
+	public ResponseEntity<?> findByModelo(@PathVariable String modelo, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		List<Destino> destinos = new ArrayList<Destino>();
+		List<Avion> avions = new ArrayList<Avion>();
 		try {
-			destinos = destinoService.findByPais(pais);
-			if (destinos.isEmpty()) {
+			avions = avionService.findByModelo(modelo);
+			if (avions.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
@@ -75,17 +74,17 @@ public class DestinoController extends ControllerGeneric<Destino, DestinoService
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put(KeyResponse.RESULT, destinos);
+		response.put(KeyResponse.RESULT, avions);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@GetMapping("/c/{ciudad}")
-	public ResponseEntity<?> findByCiudad(@PathVariable String ciudad, Locale locale) {
+	@GetMapping("/d/{disponible}")
+	public ResponseEntity<?> findByDisponible(@PathVariable Boolean disponible, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		List<Destino> destinos = new ArrayList<Destino>();
+		List<Avion> aviones = new ArrayList<Avion>();
 		try {
-			destinos = destinoService.findByCiudad(ciudad);
-			if (destinos.isEmpty()) {
+			aviones = avionService.findByDisponible(disponible);
+			if (aviones.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
@@ -94,7 +93,7 @@ public class DestinoController extends ControllerGeneric<Destino, DestinoService
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put(KeyResponse.RESULT, destinos);
+		response.put(KeyResponse.RESULT, aviones);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
@@ -104,9 +103,9 @@ public class DestinoController extends ControllerGeneric<Destino, DestinoService
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> actualizar(@RequestBody @Valid Destino destino, BindingResult result,
+	public ResponseEntity<?> actualizar(@RequestBody @Valid Avion avion, BindingResult result,
 			@PathVariable Long id) {
-		String textToConcat = destino.getCiudad() + CommonWords.ESPACIO + destino.getPais();
-		return actualizarEntity(destino, result, id, textToConcat);
+		String textToConcat = avion.getModelo();
+		return actualizarEntity(avion, result, id, textToConcat);
 	}
 }

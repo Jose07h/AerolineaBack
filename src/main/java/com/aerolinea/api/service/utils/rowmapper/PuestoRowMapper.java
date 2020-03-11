@@ -12,7 +12,7 @@ public class PuestoRowMapper implements RowMapper<Puesto>{
 	@Override
 	public Puesto mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Puesto puesto=new Puesto();
-		puesto.setId(rs.getInt("id"));
+		puesto.setId(rs.getLong("id"));
 		puesto.setPuesto(rs.getString("puesto"));
 		puesto.setTurno(rs.getString("turno"));
 		puesto.setSalario(rs.getInt("salario"));

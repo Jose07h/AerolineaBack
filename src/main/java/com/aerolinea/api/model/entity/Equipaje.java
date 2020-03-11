@@ -22,7 +22,7 @@ public class Equipaje implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@Digits(integer = 2,fraction = 2)
 	@Max(value = 50,message = "El peso maximo permitido es 50kg")
@@ -56,11 +56,11 @@ public class Equipaje implements Serializable {
 	@Column(name = "largo_x")
 	private Integer largoX;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
