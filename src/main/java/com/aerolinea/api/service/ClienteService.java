@@ -33,4 +33,6 @@ public interface ClienteService extends ServiceGeneric<Cliente> {
 	public List<Cliente> findByApMaterno(String apellido);
 	
 	public Cliente findByEquipajeId(Long id);
+	
+	public Equipaje findByIdAndEquipajeById(Long id,Long IdEquipaje);
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -35,7 +36,7 @@ import com.aerolinea.api.service.utils.constants.KeyResponse;
 public class ClienteController extends ControllerGeneric<Cliente, ClienteService> {
 
 	@Autowired
-	private ClienteService ClienteService;
+	private ClienteService clienteService;
 
 	@Autowired
 	private MessageSource mensajes;
@@ -61,7 +62,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		try {
-			clientes = ClienteService.findByNombre(nombre);
+			clientes = clienteService.findByNombre(nombre);
 			if (clientes.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -80,7 +81,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		try {
-			clientes = ClienteService.findByApMaterno(apMaterno);
+			clientes = clienteService.findByApMaterno(apMaterno);
 			if (clientes.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -99,7 +100,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		try {
-			clientes = ClienteService.findByApPaterno(apPaterno);
+			clientes = clienteService.findByApPaterno(apPaterno);
 			if (clientes.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -118,7 +119,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		try {
-			clientes = ClienteService.findByTelefono(telefono);
+			clientes = clienteService.findByTelefono(telefono);
 			if (clientes.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -137,7 +138,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<Cliente> clientes = new ArrayList<Cliente>();
 		try {
-			clientes = ClienteService.findByCorreo(correo);
+			clientes = clienteService.findByCorreo(correo);
 			if (clientes.isEmpty()) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
@@ -154,11 +155,11 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 	@GetMapping("/e/{id}")
 	public ResponseEntity<?> findByEquipajeId(@PathVariable Long id, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
-		
+
 		Cliente cliente = null;
 		try {
-			cliente = ClienteService.findByEquipajeId(id);
-			if (cliente==null) {
+			cliente = clienteService.findByEquipajeId(id);
+			if (cliente == null) {
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
@@ -170,7 +171,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		response.put(KeyResponse.RESULT, cliente);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
- 
+
 	@GetMapping("/{id}")
 	public ResponseEntity<?> findById(@PathVariable Long id) {
 		return findOne(id);
@@ -182,4 +183,63 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		String textToConcat = cliente.getNombre() + CommonWords.ESPACIO + cliente.getApPaterno();
 		return actualizarEntity(cliente, result, id, textToConcat);
 	}
+
+	@PutMapping("/e/{id}")
+	public ResponseEntity<?> agregarEquipaje(@PathVariable Long id, @RequestBody @Valid Equipaje equipaje,
+			BindingResult result, Locale locale) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		Cliente cliente = null;
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream().map(err -> err.getDefaultMessage())
+					.collect(Collectors.toList());
+			response.put(KeyResponse.ERROR, errors);
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.invalid.entity", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			cliente = clienteService.findById(id);
+			if (cliente == null) {
+				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			cliente.getEqupaje().add(equipaje);
+			cliente = clienteService.save(cliente);
+		} catch (DataAccessException e) {
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put(KeyResponse.RESULT, cliente);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@SuppressWarnings("unused")
+	@DeleteMapping("/e/{id}/{idequipaje}")
+	public ResponseEntity<?> eliminarEquipaje(@PathVariable Long id, @PathVariable(name = "idequipaje") Long idEquipaje,
+			Locale locale) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		Cliente cliente = null;
+		Equipaje equipaje=null;
+		try {
+			cliente = clienteService.findById(id);
+			if (cliente == null) {
+				response.put(KeyResponse.ERROR,"Cliente: "+ mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			equipaje=clienteService.findByIdAndEquipajeById(id,idEquipaje);
+			if (equipaje == null) {
+				response.put(KeyResponse.ERROR,"Equipaje: "+ mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			cliente.getEqupaje().remove(equipaje);
+			cliente = clienteService.save(cliente);
+		} catch (DataAccessException e) {
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put(KeyResponse.RESULT, cliente);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
 }
+

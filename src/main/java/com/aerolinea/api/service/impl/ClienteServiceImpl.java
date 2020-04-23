@@ -1,11 +1,8 @@
 package com.aerolinea.api.service.impl;
 
-import java.util.List;
+ import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import com.aerolinea.api.model.entity.Cliente;
@@ -14,16 +11,8 @@ import com.aerolinea.api.model.repository.ClienteRepository;
 import com.aerolinea.api.model.repository.EquipajeRepository;
 import com.aerolinea.api.model.repository.ReservasVueloRepository;
 import com.aerolinea.api.service.ClienteService;
-import com.aerolinea.api.service.utils.constants.SQLConstants;
-import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
-import com.aerolinea.api.service.utils.rowmapper.ClienteRowMapper;
 @Service
 public class ClienteServiceImpl implements ClienteService {
-
-	private static final Logger log = LoggerFactory.getLogger(PuestoServiceImpl.class);
-
-	@Autowired
-	private JdbcTemplate JDBC;
 	@Autowired
 	private ClienteRepository clienteRepository;
 	@Autowired
@@ -79,7 +68,7 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public List<Cliente> findByCorreo(String correo) {
-		return clienteRepository.findByCorreoLike(correo);
+		return clienteRepository.findByCorreoContaining(correo);
 	}
 
 	@Override
@@ -89,12 +78,12 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public List<Cliente> findByApPaterno(String apellido) {
-		return clienteRepository.findByapPaterno(apellido);
+		return clienteRepository.findByapPaternoContaining(apellido);
 	}
 
 	@Override
 	public List<Cliente> findByApMaterno(String apellido) {
-		return clienteRepository.findByapMaterno(apellido);
+		return clienteRepository.findByapMaternoContaining(apellido);
 	}
 
 	@Override
@@ -106,6 +95,13 @@ public class ClienteServiceImpl implements ClienteService {
 	public Cliente findByEquipajeId(Long id) {
 		return  clienteRepository.findByEquipajeId(id);
 	}
+
+	@Override
+	public Equipaje findByIdAndEquipajeById(Long id,Long idEquipaje) {
+		return equipajeRepository.findByIdAndEquipajeById(id,idEquipaje);
+	}
+	
+	
 	
 
 }
