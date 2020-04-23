@@ -1,7 +1,7 @@
 package com.aerolinea.api.service.utils.constants;
 
 public enum SQLConstants {
-	SELECT("SELECT "), FROM("FROM "), ORDER("ORDER "), BY("BY "), GROUP("GROUP "), ALL("* "),SELECT_ALL("SELECT * FROM ");
+	SELECT("SELECT "), FROM("FROM "), ORDER("ORDER "), BY("BY "), GROUP("GROUP "), ALL("* "),SELECT_ALL("SELECT * FROM "),WHERE("WHERE");
 
 	private String constant;
 
