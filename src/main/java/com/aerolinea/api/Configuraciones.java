@@ -25,9 +25,9 @@ public class Configuraciones implements WebMvcConfigurer {
 	//Para obtener la localizacion de manera automatica 
 	@Bean
 	public LocaleResolver localeResolver() {
+//		Locale locale=Locale.ENGLISH;
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-		localeResolver.setDefaultLocale(new Locale("es", "ES"));
-		
+		localeResolver.setDefaultLocale(Locale.getDefault());		
 		return localeResolver;
 	}
 	

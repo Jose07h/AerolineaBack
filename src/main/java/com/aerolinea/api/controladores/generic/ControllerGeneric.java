@@ -7,23 +7,27 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-
 import com.aerolinea.api.service.generic.ServiceGeneric;
 import com.aerolinea.api.service.utils.constants.CommonWords;
 import com.aerolinea.api.service.utils.constants.KeyResponse;
 
 public class ControllerGeneric<E, S> {
 
+	
+	private static final Logger log = LoggerFactory.getLogger(ControllerGeneric.class);
+
 	@Autowired
 	private ServiceGeneric<E> service;
-
-	Locale locale = Locale.getDefault();
+	
+	Locale locale =Locale.getDefault(); 
 
 	@Autowired
 	private MessageSource mensajes;
@@ -38,6 +42,7 @@ public class ControllerGeneric<E, S> {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (DataAccessException e) {
+			log.info(e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -56,6 +61,7 @@ public class ControllerGeneric<E, S> {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (DataAccessException e) {
+			log.info(e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -63,7 +69,7 @@ public class ControllerGeneric<E, S> {
 		response.put(KeyResponse.RESULT, allDataList);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
-	
+
 	public ResponseEntity<?> findAllByOrden(String orden) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		List<E> allDataList = new ArrayList<E>();
@@ -74,6 +80,7 @@ public class ControllerGeneric<E, S> {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
 		} catch (DataAccessException e) {
+			log.info(e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -96,6 +103,7 @@ public class ControllerGeneric<E, S> {
 		try {
 			newEntity = service.save(entity);
 		} catch (DataAccessException e) {
+			log.info(e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -128,6 +136,7 @@ public class ControllerGeneric<E, S> {
 			newEntity = service.save(oldEntity);
 
 		} catch (DataAccessException e) {
+			 e.printStackTrace();
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -153,6 +162,7 @@ public class ControllerGeneric<E, S> {
 			}
 			service.delete(oldEntity);
 		} catch (DataAccessException e) {
+			log.info(e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
