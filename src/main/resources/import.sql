@@ -13,7 +13,7 @@ INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Clase económica');
 INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Primera clase');
 INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Clase empresarial');
 
-INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Jose','c', 'Victoria', 12,'joseluis@gmail.com', 'Masculino', 722223121, 79);
+INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Jose','c', 'Hernandez', 12,'joseluis@gmail.com', 'Masculino', 722223121, 79);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (23,22,22, 42, 4, 1);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (43,22,12, 34, 4, 1);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (31,25,21, 12, 4, 1);
