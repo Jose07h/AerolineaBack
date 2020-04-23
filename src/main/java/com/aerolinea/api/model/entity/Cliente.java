@@ -12,12 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 
@@ -46,10 +47,14 @@ public class Cliente implements Serializable {
 	private Integer edad;
 	
 	@NotNull(message = "El correo es requerido")
-	@Email
+	@Email(message = "El emai no tiene un formato valido")
 	private String correo;
+	@NotNull(message = "El sexo es requerido")
 	private String sexo;
+	
 	@NotNull(message = "El numero de telefono es requerido")
+	@Min(value = 10,message = "Los digitos minimos permitidos son 10")
+	@Positive(message = "La cantidad de motores deve de ser un numero positivo")
 	private Integer telefono;
 	
 	@Max(value = 120,message = "La edad maxima es de 120kg")
@@ -60,8 +65,6 @@ public class Cliente implements Serializable {
 	@JoinColumn(name = "id_cliente")
 	private List<Equipaje> equpaje;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private ReservasVuelo reservaVuelo;
 	public Long getId() {
 		return id;
 	}
