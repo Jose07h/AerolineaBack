@@ -3,8 +3,10 @@ package com.aerolinea.api.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,9 +16,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = TablesAndAttributesName.EMPLEADOS)
@@ -38,26 +42,28 @@ public class Empleado implements Serializable {
 	private String apMaterno;
 
 	@Max(value = 82, message = "La edad maxima es de 80 años")
+	@Min(value = 18,message = "La edad minima es de 18")
 	@NotNull(message = "La edad es requerida")
 	private Integer edad;
 
 	@NotNull(message = "El correo es requerido")
-	@Email
+	@Email(message = "El Formato de correo no es valido")
 	private String correo;
 
 	@NotNull(message = "El sexo es requerido")
 	private String sexo;
 
+	@NotNull(message = "El numero de telefono es requerido")
 	private Long telefono;
 	
-
-	@ManyToOne
-	@JoinColumn(name = "id_puesto", referencedColumnName = "id")
-	private Puesto puesto;
-
 	@NotNull(message = "es estado de acupado es requrido")
 	private Boolean ocupado;
-
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_puesto", referencedColumnName = "id")
+	private Puesto puesto;
+	 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "empleadosList")
 	private List<Vuelo> vueloList;
 
