@@ -54,12 +54,12 @@ public class Vuelo implements Serializable {
 	private List<ReservasVuelo> reservasList;
 
 	@ManyToMany
-	@JoinTable(name = "personal_vuelo", joinColumns = @JoinColumn(name = "id_avion"), inverseJoinColumns = @JoinColumn(name = "id_empleado"))
+	@JoinTable(name = "personal_vuelo", joinColumns = @JoinColumn(name = "id_vuelo"), inverseJoinColumns = @JoinColumn(name = "id_empleado"))
 	private List<Empleado> empleadosList;
 
 	public Long getId() {
 		return id;
-	}
+	} 
 
 	public void setId(Long id) {
 		this.id = id;
