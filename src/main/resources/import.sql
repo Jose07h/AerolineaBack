@@ -202,4 +202,9 @@ INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)
 INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('B8',2,8);
 INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('C15',3,6);
 INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('D2',1,1);
-			
+
+
+INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (1,1);
+INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (1,2);
+INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (2,1);
+INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (2,2);
