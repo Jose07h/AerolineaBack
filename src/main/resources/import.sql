@@ -14,15 +14,16 @@ INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Primera clase',1
 INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Clase empresarial',800);
 
 
-INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Jose','c', 'Hernandez', 12,'joseluis@gmail.com', 'Masculino', 722223121, 79);
+INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Jose','Hernandez', 'Hernandez', 12,'joseluis@gmail.com', 'Masculino', 722223121, 79);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (23,22,22, 42, 4, 1);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (43,22,12, 34, 4, 1);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (31,25,21, 12, 4, 1);
     
-INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Luis','a', 'Victoria', 12,'luis@gmail.com', 'Masculino', 721321311, 81);
+INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Luis','Hernandez', 'Victoria', 12,'luis@gmail.com', 'Masculino', 721321311, 81);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (31,22,18, 24, 4, 2);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (12,23,12, 43, 4, 2);
-INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Luis','b', 'Victoria', 12,'luis@gmail.com', 'Masculino', 721321311, 81);
+
+INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Luis','Victoria', 'Victoria', 12,'luis@gmail.com', 'Masculino', 721321311, 81);
 
 INSERT INTO public.destinos(ciudad,pais,disponible)VALUES('Micronesia','Palikir',true);
 INSERT INTO public.destinos(ciudad,pais,disponible)VALUES('Moldavia','Chisináu',true);
