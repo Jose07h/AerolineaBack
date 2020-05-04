@@ -37,7 +37,7 @@ public class EquipajeController extends ControllerGeneric<Equipaje, EquipajeServ
 
 	@PostMapping("/")
 	public ResponseEntity<?> guardar(@RequestBody @Valid Equipaje equipaje, BindingResult result) {
-		String textToConcat = equipaje.getId().toString();
+		String textToConcat = "";
 		return guardarEntity(equipaje, result, textToConcat);
 	}
 
