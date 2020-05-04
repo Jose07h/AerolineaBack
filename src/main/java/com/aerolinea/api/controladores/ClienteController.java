@@ -202,33 +202,34 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
-			cliente.getEqupaje().add(equipaje);
-			cliente = clienteService.save(cliente);
+			equipaje.setCliente(cliente);
+			clienteService.agregarEquipaje(equipaje);
+
 		} catch (DataAccessException e) {
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put(KeyResponse.RESULT, cliente);
+		response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.actualizado", null, locale));
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@SuppressWarnings("unused")
 	@DeleteMapping("/e/{id}/{idequipaje}")
 	public ResponseEntity<?> eliminarEquipaje(@PathVariable Long id, @PathVariable(name = "idequipaje") Long idEquipaje,
 			Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		Cliente cliente = null;
-		Equipaje equipaje=null;
+		Equipaje equipaje = null;
 		try {
 			cliente = clienteService.findById(id);
 			if (cliente == null) {
-				response.put(KeyResponse.ERROR,"Cliente: "+ mensajes.getMessage("text.no.encontrado", null, locale));
+				response.put(KeyResponse.ERROR, "Cliente: " + mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
-			equipaje=clienteService.findByIdAndEquipajeById(id,idEquipaje);
+			equipaje = clienteService.findByIdAndEquipajeById(id, idEquipaje);
 			if (equipaje == null) {
-				response.put(KeyResponse.ERROR,"Equipaje: "+ mensajes.getMessage("text.no.encontrado", null, locale));
+				response.put(KeyResponse.ERROR, "Equipaje: " + mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
 			cliente.getEqupaje().remove(equipaje);
@@ -239,7 +240,44 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put(KeyResponse.RESULT, cliente);
+		response.put(KeyResponse.MENSAJE, "Equipaje: " + mensajes.getMessage("text.eliminado", null, locale));
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@PutMapping("/e/{id}/{idequipaje}")
+	public ResponseEntity<?> actualizarEquipaje(@PathVariable Long id,
+			@PathVariable(name = "idequipaje") Long idEquipaje, @RequestBody @Valid Equipaje equipaje,
+			BindingResult result, Locale locale) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		Cliente cliente = null;
+		Equipaje oldEquipaje = null;
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream().map(err -> err.getDefaultMessage())
+					.collect(Collectors.toList());
+			response.put(KeyResponse.ERROR, errors);
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.invalid.entity", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		try {
+			cliente = clienteService.findById(id);
+			if (cliente == null) {
+				response.put(KeyResponse.ERROR, "Cliente: " + mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			oldEquipaje = clienteService.findEquipajeById(idEquipaje);
+			if (oldEquipaje == null) {
+				response.put(KeyResponse.ERROR, "Equipaje: " + mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			clienteService.MapNewToOldEquipaje(oldEquipaje,equipaje);
+			clienteService.agregarEquipaje(oldEquipaje);
+		} catch (DataAccessException e) {
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put(KeyResponse.RESULT, cliente);
+		response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.actualizado", null, locale));
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 }
-
