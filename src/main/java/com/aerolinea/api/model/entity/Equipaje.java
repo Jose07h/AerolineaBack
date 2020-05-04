@@ -17,6 +17,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = TablesAndAttributesName.EQUIPAJE)
@@ -29,7 +30,7 @@ public class Equipaje implements Serializable {
 	
 	@Digits(integer = 2,fraction = 2)
 	@Max(value = 50,message = "El peso maximo permitido es 50kg")
-	@Min(value = 1,message = "El peso minimo de es de 1kg")
+	@Min(value = 1,message = "El peso minimo es de 1kg")
 	@NotNull(message = "El peso es requerido")
 	private Integer peso;
 	
@@ -60,8 +61,9 @@ public class Equipaje implements Serializable {
 	private Integer largoX;
 
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER) 
 	@JoinColumn(name = "id_cliente")
+	@JsonBackReference(value = "cliente-equipaje")
 	private Cliente cliente;
 	
 	public Long getId() {
