@@ -1,11 +1,16 @@
 package com.aerolinea.api.model.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -54,6 +59,9 @@ public class Avion implements Serializable {
 	@Column(nullable = false)
 	@NotNull(message = "La disponibilidad es requerida")
 	private Boolean disponible;
+	
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "avion")
+	private List<Vuelo> vuelosList;
 
 	public Long getId() {
 		return id;
@@ -110,5 +118,15 @@ public class Avion implements Serializable {
 	public void setDisponible(Boolean disponible) {
 		this.disponible = disponible;
 	}
+
+	public List<Vuelo> getVuelosList() {
+		return vuelosList;
+	}
+
+	public void setVuelosList(List<Vuelo> vuelosList) {
+		this.vuelosList = vuelosList;
+	}
+	
+	
 
 }
