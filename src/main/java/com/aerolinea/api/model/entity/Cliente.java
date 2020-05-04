@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -61,9 +60,11 @@ public class Cliente implements Serializable {
 	@NotNull(message = "La peso es requerido")
 	private Integer peso;
 	
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_cliente")
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cliente")
 	private List<Equipaje> equpaje;
+	
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cliente")
+	private List<Equipaje> reservasList;	
 	
 	public Long getId() {
 		return id;
@@ -143,6 +144,14 @@ public class Cliente implements Serializable {
 
 	public void setEqupaje(List<Equipaje> equpaje) {
 		this.equpaje = equpaje;
+	}
+
+	public List<Equipaje> getReservasList() {
+		return reservasList;
+	}
+
+	public void setReservasList(List<Equipaje> reservasList) {
+		this.reservasList = reservasList;
 	}
 	
 	
