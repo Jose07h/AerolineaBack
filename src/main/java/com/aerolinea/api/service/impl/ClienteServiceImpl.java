@@ -68,22 +68,22 @@ public class ClienteServiceImpl implements ClienteService {
 
 	@Override
 	public List<Cliente> findByCorreo(String correo) {
-		return clienteRepository.findByCorreoContaining(correo);
+		return clienteRepository.findByCorreoContainingIgnoreCase(correo);
 	}
 
 	@Override
 	public List<Cliente> findByNombre(String nombre) {
-		return clienteRepository.findByNombre(nombre);
+		return clienteRepository.findByNombreContainingIgnoreCase(nombre);
 	}
 
 	@Override
 	public List<Cliente> findByApPaterno(String apellido) {
-		return clienteRepository.findByapPaternoContaining(apellido);
+		return clienteRepository.findByapPaternoContainingIgnoreCase(apellido);
 	}
 
 	@Override
 	public List<Cliente> findByApMaterno(String apellido) {
-		return clienteRepository.findByapMaternoContaining(apellido);
+		return clienteRepository.findByapMaternoContainingIgnoreCase(apellido);
 	}
 
 	@Override
@@ -100,8 +100,25 @@ public class ClienteServiceImpl implements ClienteService {
 	public Equipaje findByIdAndEquipajeById(Long id,Long idEquipaje) {
 		return equipajeRepository.findByIdAndEquipajeById(id,idEquipaje);
 	}
+
+	@Override
+	public void agregarEquipaje(Equipaje equipaje) {
+		equipajeRepository.save(equipaje);
+	}
+
+	@Override
+	public Equipaje findEquipajeById(Long id) {
+		return equipajeRepository.findById(id).orElse(null);
+	}
 	
-	
-	
+	@Override
+	public Equipaje MapNewToOldEquipaje(Equipaje oldEquipaje, Equipaje newEquipaje) {
+		oldEquipaje.setPeso(newEquipaje.getPeso());
+		oldEquipaje.setResistencia(newEquipaje.getResistencia());
+		oldEquipaje.setAltoY(newEquipaje.getAltoY());
+		oldEquipaje.setAnchoZ(newEquipaje.getAnchoZ());
+		oldEquipaje.setLargoX(newEquipaje.getLargoX());
+		return oldEquipaje;
+	}
 
 }
