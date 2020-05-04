@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 
@@ -31,35 +32,42 @@ public class Vuelo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull(message = "La hora de salida es requerida")
+	private LocalTime horaSalida;
+	
+	@NotNull(message = "La hora de llegada es requerida")
+	private LocalTime horaLlegada;
 
-	@ManyToOne
-	@JoinColumn(name = "id_avion", referencedColumnName = "id")
+	@NotNull(message = "El costo del vuelo es requerido")
+	@Column(precision = 16, scale = 2)
+	private BigDecimal costo;
+	
+	@NotNull(message = "La fecha del vuelo  es requerida ")
+	private LocalDate fecha;
+	
+	private Integer reservados;
+	
+	private Boolean disponible;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_avion")
 	private Avion avion;
 
 	@ManyToOne
 	@JoinColumn(name = "id_destino", referencedColumnName = "id")
 	private Destino destino;
-
-	private LocalTime horaSalida;
-	private LocalTime horaLlegada;
-
-	@Column(precision = 16, scale = 2)
-	private BigDecimal costo;
-
-	private LocalDate fecha;
-	private Integer reservados;
-
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_vuelo")
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "vuelo")
 	private List<ReservasVuelo> reservasList;
 
 	@ManyToMany
 	@JoinTable(name = "personal_vuelo", joinColumns = @JoinColumn(name = "id_vuelo"), inverseJoinColumns = @JoinColumn(name = "id_empleado"))
 	private List<Empleado> empleadosList;
 
+	
 	public Long getId() {
 		return id;
-	} 
+	}
 
 	public void setId(Long id) {
 		this.id = id;
@@ -110,6 +118,9 @@ public class Vuelo implements Serializable {
 	}
 
 	public void setReservados(Integer reservados) {
+		if (this.reservados==null ) {
+			this.reservados=0;
+		}
 		this.reservados = reservados;
 	}
 
@@ -136,5 +147,15 @@ public class Vuelo implements Serializable {
 	public void setEmpleadosList(List<Empleado> empleadosList) {
 		this.empleadosList = empleadosList;
 	}
+
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Boolean disponible) {
+		this.disponible = disponible;
+	}
+	
+	
 
 }
