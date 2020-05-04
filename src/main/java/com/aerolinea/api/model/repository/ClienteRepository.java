@@ -9,15 +9,16 @@ import com.aerolinea.api.model.entity.Cliente;
 import com.aerolinea.api.model.entity.Equipaje;
 
 public interface ClienteRepository extends CrudRepository<Cliente, Long> {
-	public List<Cliente> findByNombre(String nombre);
+	
+	public List<Cliente> findByNombreContainingIgnoreCase(String nombre);
 
-	public List<Cliente> findByapPaternoContaining(String apellido);
+	public List<Cliente> findByapPaternoContainingIgnoreCase(String apellido);
 
-	public List<Cliente> findByapMaternoContaining(String apellido);
+	public List<Cliente> findByapMaternoContainingIgnoreCase(String apellido);
 
 	public List<Cliente> findByEqupajeIn(List<Equipaje> equpaje);
 	
-	public List<Cliente> findByCorreoContaining(String correo);
+	public List<Cliente> findByCorreoContainingIgnoreCase(String correo);
 	
 	public List<Cliente> findByTelefono(Integer telefono);
 	
