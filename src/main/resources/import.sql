@@ -9,9 +9,10 @@ INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, mo
 INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 4,  400, true,'Bombardier CRJ 700', 2200, 570);
 INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, modelo, peso_maximo, velocidad_maxima)	VALUES ( 14, 50, true,'Boeing Dreamliner', 3100, 876);
 
-INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Clase económica');
-INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Primera clase');
-INSERT INTO public.categorias_vuelos(categoria) VALUES ( 'Clase empresarial');
+INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Clase económica',0);
+INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Primera clase',1000);
+INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Clase empresarial',800);
+
 
 INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Jose','c', 'Hernandez', 12,'joseluis@gmail.com', 'Masculino', 722223121, 79);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (23,22,22, 42, 4, 1);
@@ -22,6 +23,7 @@ INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo,
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (31,22,18, 24, 4, 2);
     INSERT INTO public.equipaje(alto_y, ancho_z, largo_x, peso, resistencia, id_cliente)VALUES (12,23,12, 43, 4, 2);
 INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Luis','b', 'Victoria', 12,'luis@gmail.com', 'Masculino', 721321311, 81);
+
 INSERT INTO public.destinos(ciudad,pais,disponible)VALUES('Micronesia','Palikir',true);
 INSERT INTO public.destinos(ciudad,pais,disponible)VALUES('Moldavia','Chisináu',true);
 INSERT INTO public.destinos(ciudad,pais,disponible)VALUES('Mónaco','Mónaco',true);
@@ -192,16 +194,16 @@ INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, i
 INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (71529,'12/12/2019','12:00','12:00',22,6,6);										
 
 	
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('A9',1,4);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('B12',2,9);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('C5',3,9);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('D15',1,8);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('E17',2,3);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('F3',3,9);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('A20',1,2);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('B8',2,8);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('C15',3,6);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo)VALUES ('D2',1,1);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('A9',1,4,1);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('B12',2,9,2);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('C5',3,9,3);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('D15',1,8,1);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('E17',2,3,2);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('F3',3,9,3);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('A20',1,2,1);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('B8',2,8,2);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('C15',3,6,3);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('D2',1,1,1);
 
 
 INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (1,1);
