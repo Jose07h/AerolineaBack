@@ -27,7 +27,7 @@ public class Configuraciones implements WebMvcConfigurer {
 	public LocaleResolver localeResolver() {
 //		Locale locale=Locale.ENGLISH;
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
-		localeResolver.setDefaultLocale(Locale.getDefault());		
+		localeResolver.setDefaultLocale(new Locale("es", "ES"));		
 		return localeResolver;
 	}
 	
