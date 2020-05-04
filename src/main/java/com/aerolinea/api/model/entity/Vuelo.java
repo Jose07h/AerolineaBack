@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = TablesAndAttributesName.VUELOS)
@@ -51,13 +53,15 @@ public class Vuelo implements Serializable {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_avion")
+	@JsonBackReference(value = "vuelo-avion")
 	private Avion avion;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_destino", referencedColumnName = "id")
 	private Destino destino;
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "vuelo")
+	@JsonManagedReference(value = "reservas-vuelo")
 	private List<ReservasVuelo> reservasList;
 
 	@ManyToMany
