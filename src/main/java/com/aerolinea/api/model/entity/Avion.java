@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = TablesAndAttributesName.AVIONES)
@@ -61,6 +62,7 @@ public class Avion implements Serializable {
 	private Boolean disponible;
 	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "avion")
+	@JsonManagedReference(value = "vuelo-avion")
 	private List<Vuelo> vuelosList;
 
 	public Long getId() {
