@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = TablesAndAttributesName.CIENTES)
@@ -61,10 +62,12 @@ public class Cliente implements Serializable {
 	private Integer peso;
 	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cliente")
+	@JsonManagedReference(value = "cliente-equipaje")
 	private List<Equipaje> equpaje;
 	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cliente")
-	private List<Equipaje> reservasList;	
+	@JsonManagedReference(value = "cliente-reservas") 
+	private List<ReservasVuelo> reservasList;	
 	
 	public Long getId() {
 		return id;
@@ -146,14 +149,12 @@ public class Cliente implements Serializable {
 		this.equpaje = equpaje;
 	}
 
-	public List<Equipaje> getReservasList() {
+	public List<ReservasVuelo> getReservasList() {
 		return reservasList;
 	}
 
-	public void setReservasList(List<Equipaje> reservasList) {
+	public void setReservasList(List<ReservasVuelo> reservasList) {
 		this.reservasList = reservasList;
 	}
-	
-	
 
 }
