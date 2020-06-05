@@ -13,4 +13,5 @@ public class TablesAndAttributesName {
 	public static final String PUESTOS_SALARIO = "salario ";
 	public static final String PUESTOS_PUESTO = "puesto ";
 	public static final String CATEGORIAS_VUELOS = "CATEGORIAS_VUELOS ";
+	public static final String PARAMETROS = "PARAMETROS ";
 }

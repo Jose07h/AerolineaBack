@@ -184,7 +184,7 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		return actualizarEntity(cliente, result, id, textToConcat);
 	}
 
-	@PutMapping("/e/{id}")
+	@PostMapping("/e/{id}")
 	public ResponseEntity<?> agregarEquipaje(@PathVariable Long id, @RequestBody @Valid Equipaje equipaje,
 			BindingResult result, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
@@ -202,9 +202,8 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 				response.put(KeyResponse.ERROR, mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
-			equipaje.setCliente(cliente);
-			clienteService.agregarEquipaje(equipaje);
-
+			cliente.getEqupaje().add(equipaje);
+			clienteService.save(cliente);
 		} catch (DataAccessException e) {
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
@@ -215,42 +214,12 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/e/{id}/{idequipaje}")
-	public ResponseEntity<?> eliminarEquipaje(@PathVariable Long id, @PathVariable(name = "idequipaje") Long idEquipaje,
-			Locale locale) {
-		Map<String, Object> response = new HashMap<String, Object>();
-		Cliente cliente = null;
-		Equipaje equipaje = null;
-		try {
-			cliente = clienteService.findById(id);
-			if (cliente == null) {
-				response.put(KeyResponse.ERROR, "Cliente: " + mensajes.getMessage("text.no.encontrado", null, locale));
-				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-			}
-			equipaje = clienteService.findByIdAndEquipajeById(id, idEquipaje);
-			if (equipaje == null) {
-				response.put(KeyResponse.ERROR, "Equipaje: " + mensajes.getMessage("text.no.encontrado", null, locale));
-				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-			}
-			cliente.getEqupaje().remove(equipaje);
-			cliente = clienteService.save(cliente);
-		} catch (DataAccessException e) {
-			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
-			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		response.put(KeyResponse.RESULT, cliente);
-		response.put(KeyResponse.MENSAJE, "Equipaje: " + mensajes.getMessage("text.eliminado", null, locale));
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
-	}
-
 	@PutMapping("/e/{id}/{idequipaje}")
 	public ResponseEntity<?> actualizarEquipaje(@PathVariable Long id,
 			@PathVariable(name = "idequipaje") Long idEquipaje, @RequestBody @Valid Equipaje equipaje,
 			BindingResult result, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		Cliente cliente = null;
-		Equipaje oldEquipaje = null;
 		if (result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream().map(err -> err.getDefaultMessage())
 					.collect(Collectors.toList());
@@ -264,13 +233,18 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 				response.put(KeyResponse.ERROR, "Cliente: " + mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
-			oldEquipaje = clienteService.findEquipajeById(idEquipaje);
-			if (oldEquipaje == null) {
+
+			if (new ArrayList<>(
+					cliente.getEqupaje().stream().filter(e -> e.getId() == idEquipaje).collect(Collectors.toList()))
+							.isEmpty()) {
 				response.put(KeyResponse.ERROR, "Equipaje: " + mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
-			clienteService.MapNewToOldEquipaje(oldEquipaje,equipaje);
-			clienteService.agregarEquipaje(oldEquipaje);
+			cliente.getEqupaje().forEach(e -> {
+				if (e.getId() == idEquipaje)
+					clienteService.MapNewToOldEquipaje(e, equipaje);
+			});
+			clienteService.save(cliente);
 		} catch (DataAccessException e) {
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
@@ -278,6 +252,35 @@ public class ClienteController extends ControllerGeneric<Cliente, ClienteService
 		}
 		response.put(KeyResponse.RESULT, cliente);
 		response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.actualizado", null, locale));
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/e/{id}/{idequipaje}")
+	public ResponseEntity<?> eliminarEquipaje(@PathVariable Long id, @PathVariable(name = "idequipaje") Long idEquipaje, Locale locale) {
+		Map<String, Object> response = new HashMap<String, Object>();
+		Cliente cliente = null;
+		Equipaje equipaje=null;
+		try {
+			cliente = clienteService.findById(id);
+			if (cliente == null) {
+				response.put(KeyResponse.ERROR, "Cliente: " + mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			equipaje=cliente.getEqupaje().stream().filter(e->e.getId()==idEquipaje).findFirst().get();
+			if (equipaje == null) {
+				response.put(KeyResponse.ERROR, "Equipaje: " + mensajes.getMessage("text.no.encontrado", null, locale));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+			}
+			clienteService.eliminarEquipaje(equipaje);
+			 
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put(KeyResponse.RESULT, cliente);
+		response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.eliminado", null, locale));
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 }

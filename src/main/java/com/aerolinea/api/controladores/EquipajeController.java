@@ -54,7 +54,7 @@ public class EquipajeController extends ControllerGeneric<Equipaje, EquipajeServ
 	@PutMapping("/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody @Valid Equipaje equipaje, BindingResult result,
 			@PathVariable Long id) {
-		String textToConcat = equipaje.getId().toString();
+		String textToConcat = id.toString();
 		return actualizarEntity(equipaje, result, id, textToConcat);
 	}
 	@GetMapping("/c/{id}")

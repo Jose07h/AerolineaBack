@@ -1,6 +1,5 @@
 package com.aerolinea.api.model.entity;
 
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -25,50 +25,50 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 @Table(name = TablesAndAttributesName.CIENTES)
 public class Cliente implements Serializable {
- 
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull(message = "El nombre es requerido")
 	private String nombre;
-	
+
 	@NotNull(message = "El apellido paterno es requerido")
 	@Column(name = "ap_paterno")
 	private String apPaterno;
-	
+
 	@Column(name = "ap_materno")
 	private String apMaterno;
-	
-	@Max(value = 82,message = "La edad maxima es de 80 años")
+
+	@Max(value = 82, message = "La edad maxima es de 80 años")
 	@NotNull(message = "La edad es requerida")
 	private Integer edad;
-	
+
 	@NotNull(message = "El correo es requerido")
 	@Email(message = "El emai no tiene un formato valido")
 	private String correo;
 	@NotNull(message = "El sexo es requerido")
 	private String sexo;
-	
+
 	@NotNull(message = "El numero de telefono es requerido")
-	@Min(value = 10,message = "Los digitos minimos permitidos son 10")
+	@Min(value = 10, message = "Los digitos minimos permitidos son 10")
 	@Positive(message = "La cantidad de motores deve de ser un numero positivo")
 	private Integer telefono;
-	
-	@Max(value = 120,message = "La edad maxima es de 120kg")
+
+	@Max(value = 120, message = "La edad maxima es de 120kg")
 	@NotNull(message = "La peso es requerido")
 	private Integer peso;
-	
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cliente")
-	@JsonManagedReference(value = "cliente-equipaje")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_cliente")
 	private List<Equipaje> equpaje;
-	
-	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "cliente")
-	@JsonManagedReference(value = "cliente-reservas") 
-	private List<ReservasVuelo> reservasList;	
-	
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "cliente")
+	@JsonManagedReference(value = "cliente-reservas")
+	private List<ReservasVuelo> reservasList;
+
 	public Long getId() {
 		return id;
 	}

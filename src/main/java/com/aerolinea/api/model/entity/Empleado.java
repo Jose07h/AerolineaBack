@@ -3,7 +3,6 @@ package com.aerolinea.api.model.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +16,10 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.UniqueElements;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -46,7 +48,7 @@ public class Empleado implements Serializable {
 	@NotNull(message = "La edad es requerida")
 	private Integer edad;
 
-	@NotNull(message = "El correo es requerido")
+	@NotEmpty(message = "El correo es requerido")
 	@Email(message = "El Formato de correo no es valido")
 	private String correo;
 

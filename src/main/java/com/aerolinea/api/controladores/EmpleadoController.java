@@ -28,6 +28,7 @@ import com.aerolinea.api.model.entity.Empleado;
 import com.aerolinea.api.model.entity.Puesto;
 import com.aerolinea.api.service.EmpleadoService;
 import com.aerolinea.api.service.PuestoService;
+import com.aerolinea.api.service.utils.ValidateUtils;
 import com.aerolinea.api.service.utils.constants.CommonWords;
 import com.aerolinea.api.service.utils.constants.KeyResponse;
 
@@ -50,6 +51,23 @@ public class EmpleadoController extends ControllerGeneric<Empleado, EmpleadoServ
 	@PostMapping("/")
 	public ResponseEntity<?> guardar(@RequestBody @Valid Empleado empleado, BindingResult result, Locale locale) {
 		String textToConcat = empleado.getNombre() + CommonWords.ESPACIO + empleado.getApPaterno();
+		String correoDuplicado = "";
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			if (!ValidateUtils.isEmptyOrNull(empleado.getCorreo())) {
+				correoDuplicado = empleadoService.findByCorreo(empleado.getCorreo()).isEmpty() ? ""
+						: "El correo ya ha sido registrado";
+				if (!correoDuplicado.isEmpty()) {
+					response.put(KeyResponse.ERROR, correoDuplicado);
+					return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+				}
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		return guardarEntity(empleado, result, textToConcat);
 	}
 
@@ -141,29 +159,48 @@ public class EmpleadoController extends ControllerGeneric<Empleado, EmpleadoServ
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> actualizar(@RequestBody @Valid Empleado empleado, BindingResult result,
-			@PathVariable Long id) {
+			@PathVariable Long id, Locale locale) {
+		String correoDuplicado = "";
+		Map<String, Object> response = new HashMap<String, Object>();
+		try {
+			if (!ValidateUtils.isEmptyOrNull(empleado.getCorreo())) {
+				List<Empleado> empleadoTemp = empleadoService.findByCorreo(empleado.getCorreo());
+				if (!empleadoTemp.isEmpty())
+					if (empleadoTemp.get(0).getId() != id)
+						correoDuplicado = "El correo ya ha sido registrado";
+				if (!correoDuplicado.isEmpty()) {
+					response.put(KeyResponse.ERROR, correoDuplicado);
+					return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+				}
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
+			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		String textToConcat = empleado.getNombre() + CommonWords.ESPACIO + empleado.getApPaterno();
 		return actualizarEntity(empleado, result, id, textToConcat);
 	}
 
 	@GetMapping("/{id}/{idPuesto}")
-	public ResponseEntity<?> changePuesto(@PathVariable Long id, @PathVariable Long idPuesto,Locale locale) {
+	public ResponseEntity<?> changePuesto(@PathVariable Long id, @PathVariable Long idPuesto, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		Empleado empleado = null;
 		Puesto puesto = null;
 		try {
 			empleado = empleadoService.findById(id);
 			if (empleado == null) {
-				response.put(KeyResponse.ERROR,"Empleado "+ mensajes.getMessage("text.no.encontrado", null, locale));
+				response.put(KeyResponse.ERROR, "Empleado " + mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
 			puesto = puestoService.findById(idPuesto);
 			if (puesto == null) {
-				response.put(KeyResponse.ERROR,"Puesto "+ mensajes.getMessage("text.no.encontrado", null, locale));
+				response.put(KeyResponse.ERROR, "Puesto " + mensajes.getMessage("text.no.encontrado", null, locale));
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 			}
 			empleado.setPuesto(puesto);
-			empleado=empleadoService.save(empleado);
+			empleado = empleadoService.save(empleado);
 		} catch (DataAccessException e) {
 			response.put(KeyResponse.ERROR, e.getMostSpecificCause().getMessage());
 			response.put(KeyResponse.MENSAJE, mensajes.getMessage("text.error", null, locale));
@@ -173,4 +210,4 @@ public class EmpleadoController extends ControllerGeneric<Empleado, EmpleadoServ
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-} 
+}

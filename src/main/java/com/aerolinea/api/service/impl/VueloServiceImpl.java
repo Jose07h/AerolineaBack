@@ -84,14 +84,22 @@ public class VueloServiceImpl implements VueloService {
 
 	@Override
 	public Vuelo MapNewToOld(Vuelo oldvuelo, Vuelo newvuelo) {
-
-		return null;
+		oldvuelo.setAvion(newvuelo.getAvion());
+		oldvuelo.setCosto(newvuelo.getCosto());
+		oldvuelo.setDestino(newvuelo.getDestino());
+		oldvuelo.setDisponible(newvuelo.getDisponible());
+		oldvuelo.setEmpleadosList(newvuelo.getEmpleadosList());
+		oldvuelo.setFecha(newvuelo.getFecha());
+		oldvuelo.setHoraLlegada(newvuelo.getHoraLlegada());
+		oldvuelo.setHoraSalida(newvuelo.getHoraSalida());
+		oldvuelo.setReservados(newvuelo.getReservados());
+		oldvuelo.setReservasList(newvuelo.getReservasList());
+		return oldvuelo;
 	}
 
 	@Override
-	public Vuelo changeAvalibleByVueloId(Long id) {
-
-		return null;
+	public Vuelo changeAvalibleByVueloId(Vuelo vuelo) {
+		vuelo.setDisponible(!vuelo.getDisponible());
+		return vuelosRepository.save(vuelo);
 	}
-
 }

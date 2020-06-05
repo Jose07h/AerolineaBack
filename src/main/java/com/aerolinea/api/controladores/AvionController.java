@@ -58,7 +58,7 @@ public class AvionController extends ControllerGeneric<Avion, AvionService> {
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		return  eliminarEntity(id);
 	}
-
+	
 	@GetMapping("/m/{modelo}")
 	public ResponseEntity<?> findByModelo(@PathVariable String modelo, Locale locale) {
 		Map<String, Object> response = new HashMap<String, Object>();

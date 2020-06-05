@@ -41,4 +41,6 @@ public interface ClienteService extends ServiceGeneric<Cliente> {
 	public Equipaje findEquipajeById(Long id);
 	
 	public Equipaje MapNewToOldEquipaje(Equipaje oldEquipaje, Equipaje newEquipaje);
+	
+	public void eliminarEquipaje(Equipaje equipaje);
 }

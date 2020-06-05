@@ -15,5 +15,5 @@ public interface EquipajeRepository extends CrudRepository<Equipaje, Long> {
 	@Query(value = "SELECT * FROM " + TablesAndAttributesName.EQUIPAJE
 			+ "WHERE id_cliente=?1 AND ID=?2", nativeQuery = true)
 	public Equipaje findByIdAndEquipajeById(Long id, Long idEquipaje);
-	
+
 }

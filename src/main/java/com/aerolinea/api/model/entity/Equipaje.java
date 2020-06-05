@@ -4,12 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Max;
@@ -17,7 +14,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = TablesAndAttributesName.EQUIPAJE)
@@ -59,12 +55,6 @@ public class Equipaje implements Serializable {
 	@NotNull(message = "El largo del equipaje es requerido")
 	@Column(name = "largo_x")
 	private Integer largoX;
-
-	
-	@ManyToOne(fetch = FetchType.EAGER) 
-	@JoinColumn(name = "id_cliente")
-	@JsonBackReference(value = "cliente-equipaje")
-	private Cliente cliente;
 	
 	public Long getId() {
 		return id;
@@ -113,15 +103,5 @@ public class Equipaje implements Serializable {
 	public void setLargoX(Integer largoX) {
 		this.largoX = largoX;
 	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-	
-	
 
 }

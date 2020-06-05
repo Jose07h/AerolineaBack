@@ -76,7 +76,7 @@ public class EquipajeServiceImpl implements EquipajeService {
 
 	@Override
 	public Boolean isUsed(Equipaje entity) {
-		return true;
+		return false;
 	}
 
 	@Override

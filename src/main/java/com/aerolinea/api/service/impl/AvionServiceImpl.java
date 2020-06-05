@@ -40,7 +40,7 @@ public class AvionServiceImpl implements AvionService {
 
 	@Override
 	public List<Avion> findAll() {
-		return (List<Avion>) avionRepository.findAll();
+		return (List<Avion>)avionRepository.findAll();
 	}
 
 	@Override

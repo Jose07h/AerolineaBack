@@ -33,6 +33,6 @@ public interface VueloService extends ServiceGeneric<Vuelo> {
 
 	public Vuelo MapNewToOld(Vuelo oldvuelo, Vuelo newvuelo);
 	
-	public Vuelo changeAvalibleByVueloId(Long id);
+	public Vuelo changeAvalibleByVueloId(Vuelo vuelo);
 
 }

@@ -1,6 +1,7 @@
 package com.aerolinea.api.model.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -9,6 +10,15 @@ import com.aerolinea.api.model.entity.Cliente;
 import com.aerolinea.api.model.entity.Equipaje;
 
 public interface ClienteRepository extends CrudRepository<Cliente, Long> {
+	
+	@Query(value = "select c from Cliente c join fetch c.equpaje e where c.id=?1")
+	public List<Cliente> findByClienteId(Long id);
+	
+	@Query(value = "select c from Cliente c join fetch c.equpaje")
+	public List<Cliente> findAll();
+	
+	@Query(value = "select c from Cliente c join c.equpaje where c.id=?1")
+	public Optional<Cliente> findById(Long id);
 	
 	public List<Cliente> findByNombreContainingIgnoreCase(String nombre);
 

@@ -1,6 +1,7 @@
 package com.aerolinea.api.model.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,5 +14,11 @@ public interface AvionRepository extends CrudRepository<Avion, Long>{
 	public List	<Avion>  findByModelo(String modelo);
 	
 	public List<Avion> findByDisponible(Boolean disponible);
+	
+	@Query("SELECT A FROM Avion A  left join fetch A.vuelosList V left join fetch V.destino D WHERE A.id=?1" )
+	public Optional<Avion> findById(Long id);
+	
+	@Query("SELECT A FROM Avion A left join fetch A.vuelosList V left join fetch V.destino D " )
+	public List<Avion> findAll();
 	
 }

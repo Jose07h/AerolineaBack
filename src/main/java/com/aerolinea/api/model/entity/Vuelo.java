@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,9 +19,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = TablesAndAttributesName.VUELOS)
@@ -52,37 +53,28 @@ public class Vuelo implements Serializable {
 	private Boolean disponible;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_avion")
-	@JsonBackReference(value = "vuelo-avion")
+	@JsonIgnoreProperties(value={"vuelosList", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	private Avion avion;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne 
 	@JoinColumn(name = "id_destino", referencedColumnName = "id")
 	private Destino destino;
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "vuelo")
-	@JsonManagedReference(value = "reservas-vuelo")
+	@OneToMany(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties(value={"vuelo", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	private List<ReservasVuelo> reservasList;
 
 	@ManyToMany
 	@JoinTable(name = "personal_vuelo", joinColumns = @JoinColumn(name = "id_vuelo"), inverseJoinColumns = @JoinColumn(name = "id_empleado"))
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Empleado> empleadosList;
 
-	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Destino getDestino() {
-		return destino;
-	}
-
-	public void setDestino(Destino destino) {
-		this.destino = destino;
 	}
 
 	public LocalTime getHoraSalida() {
@@ -122,10 +114,15 @@ public class Vuelo implements Serializable {
 	}
 
 	public void setReservados(Integer reservados) {
-		if (this.reservados==null ) {
-			this.reservados=0;
-		}
 		this.reservados = reservados;
+	}
+
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Boolean disponible) {
+		this.disponible = disponible;
 	}
 
 	public Avion getAvion() {
@@ -134,6 +131,14 @@ public class Vuelo implements Serializable {
 
 	public void setAvion(Avion avion) {
 		this.avion = avion;
+	}
+
+	public Destino getDestino() {
+		return destino;
+	}
+
+	public void setDestino(Destino destino) {
+		this.destino = destino;
 	}
 
 	public List<ReservasVuelo> getReservasList() {
@@ -152,14 +157,6 @@ public class Vuelo implements Serializable {
 		this.empleadosList = empleadosList;
 	}
 
-	public Boolean getDisponible() {
-		return disponible;
-	}
-
-	public void setDisponible(Boolean disponible) {
-		this.disponible = disponible;
-	}
-	
 	
 
 }

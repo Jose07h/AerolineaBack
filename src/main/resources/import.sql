@@ -11,7 +11,7 @@ INSERT INTO public.aviones( cantidad_motores, cantidad_pasajeros, disponible, mo
 
 INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Clase económica',0);
 INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Primera clase',1000);
-INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Clase empresarial',800);
+INSERT INTO public.categorias_vuelos(categoria,costo) VALUES ( 'Clase empresarial',500);
 
 
 INSERT INTO public.clientes( nombre, ap_paterno, ap_materno, edad, correo, sexo, telefono, peso)    VALUES ( 'Jose','Hernandez', 'Hernandez', 12,'joseluis@gmail.com', 'Masculino', 722223121, 79);
@@ -183,31 +183,35 @@ INSERT INTO public.empleados(nombre,ap_materno, ap_paterno, correo, edad, ocupad
 INSERT INTO public.empleados(nombre,ap_materno, ap_paterno, correo, edad, ocupado, sexo, telefono, id_puesto)VALUES('JOSE MIGUEL','COLLADO','TORRES'     ,'JOSEMIGUEL88@gmail.com',46,true, 'Masculino',7225073302,1);
 INSERT INTO public.empleados(nombre,ap_materno, ap_paterno, correo, edad, ocupado, sexo, telefono, id_puesto)VALUES('MARIO','RAMIREZ','VALERO'           ,'MARIO31@gmail.com',41,true, 'Femenino',7224614622,2);
 
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (108757,'12/12/2019','03:00','03:00',46,9,20);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (51812,'12/12/2019','04:00','04:00',44,3,9);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (59264,'11/12/2019','05:00','05:00',48,7,37);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (52475,'10/12/2019','06:00','06:00',20,6,1);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (71545,'12/12/2019','07:00','07:00',42,9,31);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (81192,'13/12/2019','08:00','08:00',8,9,9);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (43906,'01/10/2019','09:00','09:00',8,5,29);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (119781,'30/04/2019','10:00','10:00',34,2,30);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (58762,'12/07/2019','11:00','11:00',24,1,9);
-INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, id_avion, id_destino)VALUES (71529,'12/12/2019','12:00','12:00',22,6,6);										
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (1000,'12/12/2019','03:00','03:00',46,9,20);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (2000,'12/12/2019','04:00','04:00',44,3,9);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (3000,'11/12/2019','05:00','05:00',48,7,37);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (4000,'10/12/2019','06:00','06:00',20,6,1);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (5000,'12/12/2019','07:00','07:00',42,9,31);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (6000,'13/12/2019','08:00','08:00',8,9,9);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (7000,'01/10/2019','09:00','09:00',8,5,29);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (8000,'30/04/2019','10:00','10:00',34,2,30);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (9000,'12/07/2019','11:00','11:00',24,1,9);
+INSERT INTO public.vuelos(costo, fecha, hora_llegada, hora_salida, reservados, avion_id, id_destino)VALUES (10000,'12/12/2019','12:00','12:00',22,6,6);										
 
 	
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('A9',1,4,1);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('B12',2,9,2);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('C5',3,9,3);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('D15',1,8,1);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('E17',2,3,2);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('F3',3,9,3);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('A20',1,2,1);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('B8',2,8,2);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('C15',3,6,3);
-INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente)VALUES ('D2',1,1,1);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('A9' ,1,4,1,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('B12',2,9,2,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('C5' ,3,9,3,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('D15',1,8,1,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('E17',2,3,2,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('F3' ,3,9,3,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('A20',1,2,1,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('B8' ,2,8,2,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('C15',3,6,3,100);
+INSERT INTO public.reservas_vuelos( numero_asiento, id_categoriavuelo, id_vuelo,id_cliente,precio)VALUES ('D2' ,1,1,1,100);
 
 
 INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (1,1);
 INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (1,2);
 INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (2,1);
 INSERT INTO public.personal_vuelo(id_vuelo,id_empleado)VALUES (2,2);
+
+INSERT INTO public.parametros(key,parametro)VALUES ('CIUDAD_ORIGEN','Ciudad de Mexico ');
+INSERT INTO public.parametros(key,parametro)VALUES ('PAIS_ORIGEN','Mexico');
+

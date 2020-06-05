@@ -1,6 +1,6 @@
 package com.aerolinea.api.model.entity;
 
-import java.io.Serializable;
+ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import com.aerolinea.api.service.utils.constants.TablesAndAttributesName;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = TablesAndAttributesName.AVIONES)
@@ -61,8 +61,9 @@ public class Avion implements Serializable {
 	@NotNull(message = "La disponibilidad es requerida")
 	private Boolean disponible;
 	
+	
 	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "avion")
-	@JsonManagedReference(value = "vuelo-avion")
+	@JsonIgnoreProperties(value={"avion", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	private List<Vuelo> vuelosList;
 
 	public Long getId() {
